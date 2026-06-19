@@ -1,8 +1,8 @@
 import Link from "next/link"
 
-export default function MusicCard({ key, album }) {
+export default function MusicCard({ album }) {
     return (
-        <div key={key} className="flex max-w-55 text-center w-full flex-col items-center justify-center py-2.5 bg-gray-800 rounded-lg">
+        <div className="flex max-w-55 text-center w-full flex-col items-center justify-center py-2.5 bg-gray-800 rounded-lg">
             <img src={album.cover} alt={album.title} className="w-50 h-auto rounded-lg" />
             <h2 className='text-xl font-bold'>{album.title}</h2>
             <p>{album.artist}</p>
