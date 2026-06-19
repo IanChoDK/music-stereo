@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+##Para hacer andar la API:
+
+##Configurar variables de entorno
+   Crear un archivo `.env.local` en la raíz del proyecto con el siguiente contenido:
+
+   DISCOGS_TOKEN=tu_token_aqui
+   DISCOGS_USER_AGENT=MusicStereo/1.0
+
+    Para obtener el token:
+        Crear una cuenta en https://www.discogs.com
+        Ir a Settings → Developers
+        Hacer click en "Generate new token"
+        Copiar el token y pegarlo en el `.env.local`
+    
+    reiniciar el servidor.
