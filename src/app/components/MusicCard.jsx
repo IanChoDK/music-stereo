@@ -1,10 +1,10 @@
-"use client";                                                      //actualmente MusicCard era un server component porque no tenia el "use client;", pero cuando apretamos un boton para agregar favoritos, necesitaremos: capturar un click, ejecutar addFavorites(album) y usar el useAlbums(). Y los eventos (onClick) solamente funcionan en client components 
+"use client";
 
 import Link from "next/link"
-import { useAlbums } from "@/context/AlbumsContext";            //se importa el hook personalizado del context ¿por que? poque necesitamos acceder a: favorites,addFavorites, removeFavorites, que estan dentro del context 
+import { useAlbums } from "@/context/AlbumsContext";
 
 export default function MusicCard({ album }) {
-    const { addFavorite } = useAlbums();                       // react resive favorite, addfavorites, removefavorites
+    const { addFavorite } = useAlbums();
 
     return (
         <div className="flex flex-col w-full max-w-55 h-[400px] bg-gray-800 rounded-lg p-4 text-center">
@@ -40,8 +40,5 @@ export default function MusicCard({ album }) {
             </div>
 
         </div>
-
-    )
-
-
+    );
 }
