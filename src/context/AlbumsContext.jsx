@@ -1,15 +1,29 @@
 "use client";                                                                  //esto le dice a next que tiene que ejecutarse en el navegador del usuario. ¿porque el context necesita use client? porque se usa usestate y useEffect, los hoocks de react solamente funcionan en componentes de clientes
 
 import { createContext, useContext, useEffect, useState } from "react";         //se importan 4 herramientas (hoocks y funciones) que vienen incluidas en react. 1-createContext sirve para crear un contexto global, antes de context api, si un dato estaba en un componente padre y lo necesitaban mucho componentes hijos, habia que pasarlo por props. Con context API se crea un almacen global, luego cualquier componente puede acceder a los datos sin recibir props. 2-useContext sirve para leer datos del contexto, react va a buscar el valor que el provider esta compartiendo, es como decir "react dame los datos que estan guardados en albumcontext" 3- useState sirve para crear estados, por ejemplo, react crea "favoritos" que contiene los datos actuales y "setFavoritos" que sirven para modificarlos 4- useEffect sirve para ejecutar codigo cuando ocurre algo, "la pagina acaba de cargarse, voy a buscar si existen favoritos guardados" "cada vez que cambie favoritos, ejecuta este codigo " 
+import { albums as defaultAlbums } from "@/lib/albums";
 
 const AlbumsContext = createContext();                                          //crea un contenedor global donde react podra guardar informacion compartida 
 
 export function AlbumsProvider({ children }) {                                  //crear el provider, en react children representa todo lo que este dentro de una etiqueta, el provider debe envolver los componentes que van a usar el contexto
+  const [albums, setAlbums] = useState([])
   const [favorites, setFavorites] = useState([]);                               //esto crea: favorites -> contiene los favoritos y setFavorites -> permite modificarlos, 
-
   const [message, setMessage] = useState("");
 
-  useEffect(() => {                                                             //
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {                
+    setIsMounted(true);
+
+    const savedAlbums = window.localStorage.getItem("my_albums")
+    if (savedAlbums){
+      setAlbums(JSON.parse(savedAlbums))
+    } else {
+      window.localStorage.setItem("my_albums", JSON.stringify(defaultAlbums));
+      setAlbums(defaultAlbums);
+    }
+
+
     const savedFavorites = localStorage.getItem("favorites");                   //
                                                                                 //
     if (savedFavorites) {                                                       //  ------> Cargar el localStorage, suponiendo que localStorage tiene id:1 -> tittle:"thriller" entonces: savedFavorites=id:1, tittle:"thriller" pero eso es texto. Para convertirlo nuevamente a un array: JSON.parse(savedFavorites) y luego setFavorites actualiza el estado
@@ -24,7 +38,38 @@ export function AlbumsProvider({ children }) {                                  
   }, [favorites]);                                                              //
 
 
+  const saveAlbums = (newAlbums) => {
+    setAlbums(newAlbums);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("my_albums", JSON.stringify(newAlbums));
+    }
+  }
 
+  const addAlbum = (album) => {
+    const newAlbum = {
+      ...album,
+      id: Date.now(),
+    };
+    const newAlbums = [...albums, newAlbum];
+    saveAlbums(newAlbums);
+    
+    setMessage("Álbum creado exitosamente");
+    setTimeout(() => setMessage(""), 2000);
+  }
+
+  const deleteAlbum = (id) => {
+    const filteredAlbums = albums.filter((album) => String(album.id) !== String(id));
+    saveAlbums(filteredAlbums);
+
+    removeFavorite(id);
+
+    setMessage("Álbum eliminado");
+    setTimeout(() => setMessage(""), 2000);
+  }
+
+  const getAlbumById = (id) => {
+    return albums.find((album) => String(album.id) === String(id));
+  }
 
 
   const addFavorite = (album) => {                                              // agregar favorito, se crea la funcion, por ejemplo "addFavorite(album)" 
@@ -55,9 +100,15 @@ export function AlbumsProvider({ children }) {                                  
 
   };
 
+  if (!isMounted) return null;
+
   return (
     <AlbumsContext.Provider                                                     // el provider. Aca estamos diciendo por ejemplo "voy a compartir informacion con todos los componenetes que esten dentro"
       value={{                          //
+        albums,
+        addAlbum,
+        deleteAlbum,
+        getAlbumById,
         favorites,                      //
         addFavorite,                    //  -----> es lo que se va a compartir, estamos exponiendo favorites, addFavorites(), removeFavorites() a toda la aplicacion
         removeFavorite,                 //
