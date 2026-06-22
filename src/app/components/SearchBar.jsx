@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function SearchBar() {
@@ -7,6 +8,36 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  // Estado para guardar el item seleccionado en los resultados de busqueda
+  const [selectedItem, setSelectedItem] = useState("");
+
+  const [showResults, setShowResults] = useState(false);
+
+  // Referencia de la barra de busqueda
+  const searchContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Verificar si el contenedor de busqueda existe
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        // Ocultar los resultados
+        setShowResults(false);
+      }
+    };
+
+    // Event Listener cuando se clickea fuera de los resultados de busqueda
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Limpieza: quitamos el evento cuando el componente se destruye para evitar bugs
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Funcion para manejar la busqueda
   const handleSearch = async (e) => {
@@ -18,6 +49,7 @@ export default function SearchBar() {
       // Llamada a la API con el query de busqueda
       const response = await axios.get("/api/search", { params: { q: query } });
       setSearchResults(response.data.results || []);
+      setShowResults(true);
     } catch (error) {
       console.error("Error al realizar la búsqueda:", error);
     } finally {
@@ -26,25 +58,32 @@ export default function SearchBar() {
   };
 
   // Funcion para manejar la seleccion de un item de los resultados
-  const handleSelectItem = async (id) => {
-    try {
-      // Llamada a la API con el id del item
-      const response = await axios.get(`/api/artist/${id}`);
-      setSelectedItem(response.data);
-    } catch (error) {
-      console.error("Error al seleccionar el item:", error);
+  const handleSelectItem = async (id, type) => {
+    if (type === "artist") {
+      router.push(`artists/${id}`);
+    } else if (type === "release" || type === "master") {
+      router.push(`albums/${id}`);
+    } else {
+      console.log("Error al redirigir:", type);
     }
   };
 
   return (
     // Formulario de busqueda con input y boton
-    <form onSubmit={handleSearch} className="relative w-80 z-50">
+    <form
+      ref={searchContainerRef}
+      onSubmit={handleSearch}
+      className="relative w-80 z-50"
+    >
       <input
         className="w-full px-4 py-2 rounded-full focus:outline-none border border-gray-300 focus:border-blue-500 text-white"
         type="text"
         placeholder="Buscar..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => {
+          if (searchResults.length > 0) setShowResults(true);
+        }}
       />
       <button
         type="submit"
@@ -69,7 +108,7 @@ export default function SearchBar() {
       )}
 
       {/* Resultados de la busqueda  */}
-      {searchResults.length > 0 && !loading && (
+      {showResults && searchResults.length > 0 && !loading && (
         <ul className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-black">
           {searchResults.map((result) => (
             <li
