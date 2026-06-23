@@ -122,7 +122,7 @@ export default function SearchBar() {
 
               <button
                 className="cursor:pointer mt-2 bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600"
-                onClick={() => handleSelectItem(result.id)}
+                onClick={() => handleSelectItem(result.id, result.type)}
               >
                 Ver detalles
               </button>
