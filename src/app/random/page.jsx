@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useAlbums } from "@/context/AlbumsContext";
 
 export default function Random() {
   const [album, setAlbum] = useState(null);
   const [loading, setLoading] = useState(false);
+  
+  const { addFavorite, favorites } = useAlbums();
 
   const fetchRandom = async () => {
     setLoading(true);
@@ -23,42 +26,88 @@ export default function Random() {
     fetchRandom();
   }, []);
 
+  const handleSaveFavorite = () => {
+    if (!album) return;
+
+    const titleParts = album.title.split(" - ");
+    const artistName = titleParts.length > 1 ? titleParts[0] : "Desconocido";
+    const albumTitle = titleParts.length > 1 ? titleParts[1] : album.title;
+
+    const formattedAlbum = {
+        id: album.id,
+        title: albumTitle,
+        artist: artistName,
+        year: album.year || "Desconocido",
+        cover: album.cover_image || "No hay imagen de album",
+        songs: []
+    };
+
+    addFavorite(formattedAlbum);
+  };
+
+  const isFavorite = album ? favorites.some((fav) => String(fav.id) === String(album.id)) : false;
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-950 text-white">
-      <main className="flex flex-1 w-full max-w-2xl flex-col items-center justify-center gap-8 py-20 px-8 text-center">
+      <main className="flex flex-1 w-full max-w-2xl flex-col items-center justify-center gap-8 py-10 px-8 text-center">
         <h1 className="text-4xl font-bold">Album Aleatorio</h1>
 
         {loading && (
-          <p className="text-zinc-400 text-lg animate-pulse">Buscando album...</p>
+          <div className="flex items-center justify-center">
+              <p className="text-zinc-400">Cargando...</p>
+          </div>
         )}
 
         {album && !loading && (
-          <div className="flex flex-col items-center gap-4 bg-gray-800 p-8 rounded-2xl w-full">
+          <div className="flex flex-col items-center gap-6 bg-zinc-900 p-8 rounded-xl w-full border border-zinc-800">
             {album.cover_image && (
               <img
                 src={album.cover_image}
                 alt={album.title}
-                className="w-60 h-60 object-cover rounded-xl shadow-lg"
+                className="w-64 h-64 object-cover rounded border-4 border-zinc-800"
               />
             )}
-            <h2 className="text-2xl font-bold">{album.title}</h2>
-            {album.year && <p className="text-zinc-400">Año: {album.year}</p>}
-            {album.genre && (
-              <p className="text-zinc-400">Género: {album.genre.join(", ")}</p>
-            )}
-            {album.country && (
-              <p className="text-zinc-400">País: {album.country}</p>
-            )}
+            
+            <div>
+                <h2 className="text-2xl mb-1">{album.title}</h2>
+                <div className="flex justify-center gap-4 text-sm font-mono text-zinc-400 mt-3">
+                    {album.year && <a>AÑO: {album.year}</a>}
+                    {album.country && <a>PAÍS: {album.country}</a>}
+                </div>
+                {album.genre && (
+                    <div className="mt-3 flex flex-wrap gap-2 justify-center">
+                        {album.genre.map((genre, key) => (
+                            <span key={key} className="px-2 py-1 bg-zinc-800 rounded text-xs text-zinc-300">
+                                {genre}
+                            </span>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <div className="flex gap-4 mt-4 w-full">
+                <button
+                onClick={fetchRandom}
+                disabled={loading}
+                className="flex-1 px-6 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-500 transition-colors disabled:opacity-50 border-2 border-zinc-700"
+                >
+                🔀 Otro album
+                </button>
+
+                <button
+                onClick={handleSaveFavorite}
+                disabled={isFavorite}
+                className={`flex-1 px-6 py-3 font-medium rounded-full transition-colors ${
+                    isFavorite 
+                    ? "bg-green-900 text-green-500 border-2 border-green-900 cursor-not-allowed" 
+                    : "bg-red-600 text-white hover:bg-red-700 border-2 border-red-800"
+                }`}
+                >
+                {isFavorite ? "En favoritos" : "❤️ Favorito"}
+                </button>
+            </div>
           </div>
         )}
-
-        <button
-          onClick={fetchRandom}
-          disabled={loading}
-          className="px-6 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-500 transition-colors disabled:opacity-50"
-        >
-          🔀 Otro album
-        </button>
       </main>
     </div>
   );
