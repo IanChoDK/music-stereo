@@ -3,25 +3,32 @@ import SearchBar from "./SearchBar";
 
 export default function NavBar() {
   return (
-    <nav className="w-full h-16 bg-gray-800 text-white flex items-center justify-between px-8">
-      <div className="">
-        <h1 className="text-2xl font-bold">Music Stereo</h1>
+    <nav className="sticky top-0 z-50 w-full h-16 bg-zinc-900 backdrop-blur-md text-white flex items-center justify-between px-8 border-b border-zinc-800">
+      
+      <div className="flex items-center gap-2">
+        <a className="text-2xl">🎧</a>
+        <Link href="/" className="text-xl font-bold hover:text-red-600 transition-colors">
+          MUSIC<a className="text-zinc-400">STEREO</a>
+        </Link>
       </div>
-      <div className="flex items-center">
+
+      <div className="flex items-center gap-8">
         <SearchBar />
-        <Link href="/" className="ml-4 hover:text-gray-400">
-          Home
-        </Link>
-        <Link href="/albums" className="ml-4 hover:text-gray-400">
-          Albums
-        </Link>
-        <Link href="/random" className="ml-4 hover:text-gray-400">
-          Random
-        </Link>
-        <Link href="/profile" className="ml-4 hover:text-gray-400">
-          Profile
-        </Link>
+        
+        <div className="flex items-center gap-6 text-zinc-400">
+          <Link href="/albums" className="hover:text-white transition-colors">
+            Albums
+          </Link>
+          <Link href="/random" className="hover:text-white transition-colors">
+            Random
+          </Link>
+          <Link href="/profile" className="hover:text-red-600 transition-colors flex items-center gap-2">
+            <a className="w-6 h-6 bg-zinc-800 rounded-full border border-zinc-700 flex items-center justify-center text-xs text-white">🎧</a>
+            Profile
+          </Link>
+        </div>
       </div>
+      
     </nav>
   );
 }
