@@ -8,7 +8,7 @@ export default function NavBar() {
       <div className="flex items-center gap-2">
         <a className="text-2xl">🎧</a>
         <Link href="/" className="text-xl font-bold hover:text-red-600 transition-colors">
-          MUSIC<a className="text-zinc-400">STEREO</a>
+          MUSIC<span className="text-zinc-400">STEREO</span>
         </Link>
       </div>
 
@@ -23,7 +23,7 @@ export default function NavBar() {
             Random
           </Link>
           <Link href="/profile" className="hover:text-red-600 transition-colors flex items-center gap-2">
-            <a className="w-6 h-6 bg-zinc-800 rounded-full border border-zinc-700 flex items-center justify-center text-xs text-white">🎧</a>
+            <span className="w-6 h-6 bg-zinc-800 rounded-full border border-zinc-700 flex items-center justify-center text-xs text-white">🎧</span>
             Profile
           </Link>
         </div>
