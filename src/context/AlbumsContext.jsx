@@ -68,7 +68,10 @@ export function AlbumsProvider({ children }) {                                  
   }
 
   const getAlbumById = (id) => {
-    return albums.find((album) => String(album.id) === String(id));
+    let general = albums.find((album) => String(album.id) === String(id));
+    if (general) return general;
+
+    return favorites.find((album) => String(album.id) === String(id));
   }
 
 

@@ -26,25 +26,6 @@ export default function Random() {
     fetchRandom();
   }, []);
 
-  const handleSaveFavorite = () => {
-    if (!album) return;
-
-    const titleParts = album.title.split(" - ");
-    const artistName = titleParts.length > 1 ? titleParts[0] : "Desconocido";
-    const albumTitle = titleParts.length > 1 ? titleParts[1] : album.title;
-
-    const formattedAlbum = {
-        id: album.id,
-        title: albumTitle,
-        artist: artistName,
-        year: album.year || "Desconocido",
-        cover: album.cover_image || "No hay imagen de album",
-        songs: []
-    };
-
-    addFavorite(formattedAlbum);
-  };
-
   const isFavorite = album ? favorites.some((fav) => String(fav.id) === String(album.id)) : false;
 
   return (
@@ -60,9 +41,9 @@ export default function Random() {
 
         {album && !loading && (
           <div className="flex flex-col items-center gap-6 bg-zinc-900 p-8 rounded-xl w-full border border-zinc-800">
-            {album.cover_image && (
+            {album.cover && (
               <img
-                src={album.cover_image}
+                src={album.cover}
                 alt={album.title}
                 className="w-64 h-64 object-cover rounded border-4 border-zinc-800"
               />
@@ -70,6 +51,7 @@ export default function Random() {
             
             <div>
                 <h2 className="text-2xl mb-1">{album.title}</h2>
+                <h3 className="text-sm text-zinc-400">{album.artist}</h3>
                 <div className="flex justify-center gap-4 text-sm font-mono text-zinc-400 mt-3">
                     {album.year && <a>AÑO: {album.year}</a>}
                     {album.country && <a>PAÍS: {album.country}</a>}
@@ -95,7 +77,7 @@ export default function Random() {
                 </button>
 
                 <button
-                onClick={handleSaveFavorite}
+                onClick={() => addFavorite(album)}
                 disabled={isFavorite}
                 className={`flex-1 px-6 py-3 font-medium rounded-full transition-colors ${
                     isFavorite 
