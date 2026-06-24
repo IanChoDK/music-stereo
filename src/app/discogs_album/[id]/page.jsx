@@ -23,21 +23,25 @@ export default function AlbumPage() {
       const response = await axios.get(`/api/album/${id}`);
       const data = await response.data;
 
-      // Formatear data para enviarla al componente AlbumDetail
+      // Formatear data para enviarla al componente AlbumDetail tal como lo espera
       const formattedAlbum = {
+        id: data.id || id,
         title: data.title || "Título Desconocido",
+        year: data.year || "Año Desconocido",
 
-        artist: data.artists?.[0]?.name || "Artista Desconocido",
-
-        year: data.year || "N/A",
+        artists: data.artists || [],
 
         cover:
-          data.images?.[0]?.uri ||
-          "https://via.placeholder.com/300?text=Sin+Portada",
+          data.images && data.images.length > 0
+            ? data.images[0].uri
+            : "https://via.placeholder.com/300?text=Sin+Portada",
 
-        songs: data.tracklist ? data.tracklist.map((track) => track.title) : [],
+        tracklist: data.tracklist || [],
+
+        songs: data.tracklist || [],
+
+        genres: data.genres || [],
       };
-
       // Guardar album formateado
       setAlbum(formattedAlbum);
     } catch (error) {
@@ -74,20 +78,20 @@ export default function AlbumPage() {
     alert("Album agregado a favoritos!");
   };
 
-  // Mensaje si no se encuentra el album
-  if (!album) {
-    return (
-      <div className="flex flex-1 justify-center items-center text-white">
-        <h1 className="text-3xl font-bold">Álbum no encontrado</h1>
-      </div>
-    );
-  }
-
   // Mostrar mensaje de carga
   if (loading) {
     return (
       <div className="flex flex-1 justify-center items-center text-white min-h-screen">
         <h1 className="text-3xl font-bold animate-pulse">Cargando álbum...</h1>
+      </div>
+    );
+  }
+
+  // Mensaje si no se encuentra el album
+  if (!album) {
+    return (
+      <div className="flex flex-1 justify-center items-center text-white">
+        <h1 className="text-3xl font-bold">Álbum no encontrado</h1>
       </div>
     );
   }
