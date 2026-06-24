@@ -15,7 +15,7 @@ export async function GET(request, context) {
 
   // Llamada a la API de Discogs
   try {
-    const response = await fetch(`https://api.discogs.com/releases/${id}`, {
+    const response = await fetch(`https://api.discogs.com/masters/${id}`, {
       headers: {
         // Variables de entorno para autenticacion
         Authorization: `Discogs token=${process.env.DISCOGS_TOKEN}`,
