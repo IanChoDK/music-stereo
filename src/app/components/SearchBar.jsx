@@ -59,10 +59,11 @@ export default function SearchBar() {
 
   // Funcion para manejar la seleccion de un item de los resultados
   const handleSelectItem = async (id, type) => {
+    // Redireccion segun tipo de resultado
     if (type === "artist") {
       router.push(`artists/${id}`);
-    } else if (type === "release" || type === "master") {
-      router.push(`albums/${id}`);
+    } else if (type === "master") {
+      router.push(`/discogs_album/${id}`);
     } else {
       console.log("Error al redirigir:", type);
     }
@@ -122,7 +123,7 @@ export default function SearchBar() {
 
               <button
                 className="cursor:pointer mt-2 bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600"
-                onClick={() => handleSelectItem(result.id)}
+                onClick={() => handleSelectItem(result.id, result.type)}
               >
                 Ver detalles
               </button>
