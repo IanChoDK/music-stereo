@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function AlbumPage() {
   const { id } = useParams();
 
-  const { addFavorite } = useAlbums();
+  const { addAlbum } = useAlbums();
 
   const [album, setAlbum] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,16 +45,17 @@ export default function AlbumPage() {
     }
   }, [id]);
 
-  // Funcion para agregar album a lista de favoritos
-  const handleAddFavorite = () => {
+  // Funcion para agregar album a coleccion
+  const handleAddColection = () => {
     if (!album) return;
 
-    addFavorite({
+    addAlbum({
       id: album.id,
       title: album.title,
       artist: album.artist,
       cover: album.cover,
       year: album.year,
+      songs: album.songs,
     });
   };
 
@@ -83,10 +84,10 @@ export default function AlbumPage() {
       </main>
 
       <button
-        onClick={handleAddFavorite}
-        className="absolute top-10 right-10 bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-red-700"
+        onClick={handleAddColection}
+        className="absolute top-10 right-10 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700"
       >
-        Agregar a favoritos
+        Agregar a coleccion
       </button>
     </div>
   );

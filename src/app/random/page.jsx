@@ -6,7 +6,7 @@ export default function Random() {
   const [album, setAlbum] = useState(null);
   const [loading, setLoading] = useState(false);
   
-  const { addFavorite, favorites } = useAlbums();
+  const { addAlbum, albums } = useAlbums();
 
   const fetchRandom = async () => {
     setLoading(true);
@@ -26,7 +26,7 @@ export default function Random() {
     fetchRandom();
   }, []);
 
-  const isFavorite = album ? favorites.some((fav) => String(fav.id) === String(album.id)) : false;
+  const inCollection = album ? albums.some((a) => String(a.id) === String(album.id)) : false;
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-950 text-white">
@@ -77,15 +77,15 @@ export default function Random() {
                 </button>
 
                 <button
-                onClick={() => addFavorite(album)}
-                disabled={isFavorite}
+                onClick={() => addAlbum(album)}
+                disabled={inCollection}
                 className={`flex-1 px-6 py-3 font-medium rounded-full transition-colors ${
-                    isFavorite 
+                    inCollection 
                     ? "bg-green-900 text-green-500 border-2 border-green-900 cursor-not-allowed" 
-                    : "bg-red-600 text-white hover:bg-red-700 border-2 border-red-800"
+                    : "bg-blue-600 text-white hover:bg-blue-700 border-2 border-blue-800"
                 }`}
                 >
-                {isFavorite ? "En favoritos" : "❤️ Favorito"}
+                {inCollection ? "En coleccion" : "+ Añadir a coleccion"}
                 </button>
             </div>
           </div>
