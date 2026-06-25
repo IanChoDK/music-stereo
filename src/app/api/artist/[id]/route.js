@@ -30,9 +30,27 @@ export async function GET(request, context) {
       );
     }
 
-    // Devolver datos
+    // Devolver datos formateados
     const data = await response.json();
-    return NextResponse.json(data);
+
+    const formattedArtist = {
+      id: data.id,
+      name: data.name || "Artista Desconocido",
+      cover:
+        data.images && data.images.length > 0
+          ? data.images[0].uri
+          : "https://via.placeholder.com/300?text=Sin+Imagen",
+      profile: data.profile || "Sin biografía disponible",
+      members:
+        data.members && data.members.length > 0
+          ? data.members.map((m) => ({
+              name: m.name,
+              active: m.active,
+            }))
+          : [],
+      urls: data.urls && data.urls.length > 0 ? data.urls.slice(0, 4) : [],
+    };
+    return NextResponse.json(formattedArtist);
   } catch (error) {
     // Mostrar error
     console.error("Error obteniendo los detalles del artista: ", error);
