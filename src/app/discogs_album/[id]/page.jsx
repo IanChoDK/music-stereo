@@ -23,27 +23,14 @@ export default function AlbumPage() {
       const response = await axios.get(`/api/album/${id}`);
       const data = await response.data;
 
-      // Formatear data para enviarla al componente AlbumDetail tal como lo espera
-      const formattedAlbum = {
-        id: data.id || id,
-        title: data.title || "Título Desconocido",
-        year: data.year || "Año Desconocido",
+      // Manejar falta de datos o error
+      if (!data || data.error) {
+        setAlbum(null);
+        return;
+      }
 
-        artists: data.artists || [],
-
-        cover:
-          data.images && data.images.length > 0
-            ? data.images[0].uri
-            : "https://via.placeholder.com/300?text=Sin+Portada",
-
-        tracklist: data.tracklist || [],
-
-        songs: data.tracklist || [],
-
-        genres: data.genres || [],
-      };
       // Guardar album formateado
-      setAlbum(formattedAlbum);
+      setAlbum(data);
     } catch (error) {
       console.log("Error obteniendo informacion del album", error);
     } finally {
@@ -62,20 +49,13 @@ export default function AlbumPage() {
   const handleAddFavorite = () => {
     if (!album) return;
 
-    // Crear objeto album
-    const newAlbum = {
+    addFavorite({
       id: album.id,
       title: album.title,
-      artist: album.artists?.[0]?.name || "Artista Desconocido",
-      cover:
-        album.images?.[0]?.uri ||
-        "https://via.placeholder.com/300?text=Sin+Portada",
-      year: album.year || "N/A",
-    };
-
-    addFavorite(newAlbum);
-
-    alert("Album agregado a favoritos!");
+      artist: album.artist,
+      cover: album.cover,
+      year: album.year,
+    });
   };
 
   // Mostrar mensaje de carga

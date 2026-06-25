@@ -31,9 +31,28 @@ export async function GET(request, context) {
       );
     }
 
-    // Devolver datos
+    // Devolver datos formateados
     const data = await response.json();
-    return NextResponse.json(data);
+
+    const formattedAlbum = {
+      id: data.id,
+      title: data.title || "Título Desconocido",
+      year: data.year || "Año Desconocido",
+      artist:
+        data.artists && data.artists.length > 0
+          ? data.artists[0].name
+          : "Artista Desconocido",
+      cover:
+        data.images && data.images.length > 0
+          ? data.images[0].uri
+          : "https://via.placeholder.com/300?text=Sin+Portada",
+      songs:
+        data.tracklist && data.tracklist.length > 0
+          ? data.tracklist.map((track) => track.title)
+          : ["Lista de canciones no disponible"],
+    };
+
+    return NextResponse.json(formattedAlbum);
   } catch (error) {
     // Mostrar error
     console.error("Error obteniendo los detalles del album: ", error);
