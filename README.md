@@ -1,3 +1,40 @@
+# MUSIC-STEREO
+
+En este proyecto se realizo una pagina de discos, los cuales podemos descubrir, buscarlos y crearlos, para guardarlos en una coleccion y en favoritos.
+API utilizada: Discogs API (Musica)
+
+## Info del equipo
+
+- Numero del grupo: grupo 10 (orden de exposicion: 13°)
+- Nombre del equipo: GRUPO 10
+
+## GRUPO 10: Integrantes:
+
+```bash
+Altamirano Marcos
+Chena Martin
+Funes Marcos
+Ibañez Ian
+Pereyra Franco
+```
+
+##Para hacer andar la API:
+
+##Configurar variables de entorno
+   Crear un archivo `.env.local` en la raíz del proyecto con el siguiente contenido:
+
+   DISCOGS_TOKEN=tu_token_aqui
+   DISCOGS_USER_AGENT=MusicStereo/1.0
+
+    Para obtener el token:
+        Crear una cuenta en https://www.discogs.com
+        Ir a Settings → Developers
+        Hacer click en "Generate new token"
+        Copiar el token y pegarlo en el `.env.local`
+    
+    reiniciar el servidor.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -36,18 +73,4 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-##Para hacer andar la API:
 
-##Configurar variables de entorno
-   Crear un archivo `.env.local` en la raíz del proyecto con el siguiente contenido:
-
-   DISCOGS_TOKEN=tu_token_aqui
-   DISCOGS_USER_AGENT=MusicStereo/1.0
-
-    Para obtener el token:
-        Crear una cuenta en https://www.discogs.com
-        Ir a Settings → Developers
-        Hacer click en "Generate new token"
-        Copiar el token y pegarlo en el `.env.local`
-    
-    reiniciar el servidor.
