@@ -33,9 +33,9 @@ export default function MusicCard({ album }) {
 
                 <button
                     onClick={() => addFavorite(album)}
-                    className="flex-1 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 cursor-pointer"
+                    className="flex-1 bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-400 cursor-pointer"
                 >
-                    Favorito
+                    ❤️ Fav
                 </button>
             </div>
 

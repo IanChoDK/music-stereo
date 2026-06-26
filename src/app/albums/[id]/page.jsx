@@ -34,9 +34,9 @@ export default function AlbumPage() {
 
       <button
         onClick={handleDelete}
-        className="absolute top-10 right-10 bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-red-700"
+        className="absolute top-10 items-center bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-red-700"
       >
-        Eliminar Álbum
+        Eliminar de coleccion
       </button>
     </div>
   );

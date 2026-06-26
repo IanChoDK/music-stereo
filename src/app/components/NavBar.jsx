@@ -16,11 +16,11 @@ export default function NavBar() {
         <SearchBar />
         
         <div className="flex items-center gap-6 text-zinc-400">
-          <Link href="/albums" className="hover:text-white transition-colors">
-            Albums
-          </Link>
           <Link href="/random" className="hover:text-white transition-colors">
             Random
+          </Link>
+          <Link href="/albums" className="hover:text-white transition-colors">
+            Mis albums
           </Link>
           <Link href="/profile" className="hover:text-red-600 transition-colors flex items-center gap-2">
             <span className="w-6 h-6 bg-zinc-800 rounded-full border border-zinc-700 flex items-center justify-center text-xs text-white">🎧</span>

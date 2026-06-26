@@ -56,7 +56,7 @@ export default function AlbumPage() {
       cover: album.cover,
       year: album.year,
       songs: album.songs,
-      genres: album.genres,
+      genre: album.genre,
       country: album.country,
     });
   };
@@ -87,7 +87,7 @@ export default function AlbumPage() {
 
       <button
         onClick={handleAddColection}
-        className="absolute top-10 right-10 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700"
+        className="absolute top-10 items-center bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700"
       >
         Agregar a coleccion
       </button>
