@@ -61,7 +61,7 @@ export default function SearchBar() {
   const handleSelectItem = async (id, type) => {
     // Redireccion segun tipo de resultado
     if (type === "artist") {
-      router.push(`artist/${id}`);
+      router.push(`artists/${id}`);
     } else if (type === "master") {
       router.push(`/discogs_album/${id}`);
     } else {
