@@ -12,7 +12,10 @@ export default function Create() {
     const [artist, setArtist] = useState("");
     const [year, setYear] = useState("");
     const [cover, setCover] = useState("");
+    const [country, setCountry] = useState("");
+    const [genre, setGenre] = useState("");
     const [songs, setSongs] = useState("");
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,6 +25,8 @@ export default function Create() {
             artist,
             year,
             cover,
+            country: country.trim() || "Desconocido",
+            genre: genre.split(",").map(g => g.trim()).filter(g => g !== ""),
             songs: songs.split(",").map(song => song.trim())
         }
 
@@ -63,9 +68,23 @@ export default function Create() {
                     required
                 />
                 <input
+                    placeholder="Pais de origen"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="bg-blue-100 border p-2 rounded"
+                    required
+                />
+                <input
                     placeholder="URL portada"
                     value={cover}
                     onChange={(e) => setCover(e.target.value)}
+                    className="bg-blue-100 border p-2 rounded"
+                    required
+                />
+                <input
+                    placeholder="Generos (separados por coma)"
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
                     className="bg-blue-100 border p-2 rounded"
                     required
                 />

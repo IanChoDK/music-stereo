@@ -56,6 +56,8 @@ export default function AlbumPage() {
       cover: album.cover,
       year: album.year,
       songs: album.songs,
+      genres: album.genres,
+      country: album.country,
     });
   };
 
