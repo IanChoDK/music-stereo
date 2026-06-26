@@ -38,7 +38,7 @@ export default function Create() {
     return (
         <div className="flex flex-col flex-1 items-center py-10 text-white">
             <h1 className="text-3xl font-bold mb-8">
-                Create Album
+                Ingrese informacion del album
             </h1>
 
             <form
@@ -89,7 +89,7 @@ export default function Create() {
                     required
                 />
                 <textarea
-                    placeholder="Canciones separadas por coma"
+                    placeholder="Canciones (separadas por coma)"
                     value={songs}
                     onChange={(e) => setSongs(e.target.value)}
                     className="bg-blue-100 border p-2 rounded"

@@ -48,12 +48,12 @@ export function AlbumsProvider({ children }) {                                  
   const addAlbum = (album) => {
     const newAlbum = {
       ...album,
-      id: Date.now(),
+      id: album.id || Date.now(),
     };
     const newAlbums = [...albums, newAlbum];
     saveAlbums(newAlbums);
     
-    setMessage("Álbum creado exitosamente");
+    setMessage("Álbum agregado exitosamente");
     setTimeout(() => setMessage(""), 2000);
   }
 
@@ -63,7 +63,7 @@ export function AlbumsProvider({ children }) {                                  
 
     removeFavorite(id);
 
-    setMessage("Álbum eliminado");
+    setMessage("Álbum eliminado de coleccion");
     setTimeout(() => setMessage(""), 2000);
   }
 
