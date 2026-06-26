@@ -10,45 +10,32 @@ export default function ArtistPage() {
 
   const [artist, setArtist] = useState(null);
   const [artistAlbum, setArtistAlbum] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  const fetchArtist = async () => {
+  const [loading, setLoading] = useState(true);
+
+  const fetchArtistData = async () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`/api/artist/${id}`);
-      const data = await response.data;
+      const [artistRes, albumsRes] = await Promise.all([
+        axios.get(`/api/artist/${id}`),
+        axios.get(`/api/artistAlbums/${id}`),
+      ]);
 
-      if (!data || data.error) {
+      if (!artistRes.data || artistRes.data.error) {
         setArtist(null);
-        return;
+      } else {
+        setArtist(artistRes.data);
       }
 
-      setArtist(data);
-    } catch (error) {
-      console.error("Error obteniendo información del artista", error);
-      setArtist(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchArtistAlbum = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.get(`/api/artistAlbum/${id}`);
-      const data = await response.data;
-
-      if (!data || data.error) {
+      if (!albumsRes.data || albumsRes.data.error) {
         setArtistAlbum(null);
-        return;
+      } else {
+        setArtistAlbum(albumsRes.data);
       }
-
-      setArtistAlbum(data);
     } catch (error) {
-      console.error("Error obteniendo albums", error);
-      setArtistAlbum(null);
+      console.error("Error obteniendo datos del artista:", error);
+      setArtist(null);
     } finally {
       setLoading(false);
     }
@@ -56,8 +43,7 @@ export default function ArtistPage() {
 
   useEffect(() => {
     if (id) {
-      fetchArtist();
-      fetchArtistAlbum();
+      fetchArtistData();
     }
   }, [id]);
 
@@ -74,9 +60,7 @@ export default function ArtistPage() {
   if (!artist) {
     return (
       <div className="flex flex-1 justify-center items-center min-h-screen text-white">
-        <h1 className="text-3xl font-bold">
-          Artista no encontrado
-        </h1>
+        <h1 className="text-3xl font-bold">Artista no encontrado</h1>
       </div>
     );
   }
@@ -86,6 +70,4 @@ export default function ArtistPage() {
       <ArtistDetail artist={artist} albums={artistAlbum} />
     </main>
   );
-
-
 }
