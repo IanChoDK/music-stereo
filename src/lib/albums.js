@@ -64,6 +64,8 @@ export const albums = [
     title: "Nevermind",
     artist: "Nirvana",
     year: 1991,
+    country: "Estados Unidos",
+    genre: ["Grunge", "Alternative Rock"],
     cover: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/NirvanaNevermindalbumcover.jpg/250px-NirvanaNevermindalbumcover.jpg",
     songs: [
       "Smells Like Teen Spirit",

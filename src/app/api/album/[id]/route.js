@@ -50,6 +50,8 @@ export async function GET(request, context) {
         data.tracklist && data.tracklist.length > 0
           ? data.tracklist.map((track) => track.title)
           : ["Lista de canciones no disponible"],
+      genre: data.genres || ["Desconocido"],
+      country: data.country || "Worldwide",
     };
 
     return NextResponse.json(formattedAlbum);
