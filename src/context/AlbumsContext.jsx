@@ -48,7 +48,7 @@ export function AlbumsProvider({ children }) {                                  
   const addAlbum = (album) => {
     const newAlbum = {
       ...album,
-      id: Date.now(),
+      id: album.id || Date.now(),
     };
     const newAlbums = [...albums, newAlbum];
     saveAlbums(newAlbums);
