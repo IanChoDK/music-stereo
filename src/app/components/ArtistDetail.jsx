@@ -11,23 +11,17 @@ export default function ArtistDetail({ artist, albums }) {
         />
 
         <div className="space-y-6">
-          <h1 className="text-5xl font-bold">
-            {artist.name}
-          </h1>
+          <h1 className="text-5xl font-bold">{artist.name}</h1>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-2">
-              Biografía
-            </h2>
+            <h2 className="text-2xl font-semibold mb-2">Biografía</h2>
 
             <p>{artist.profile}</p>
           </div>
 
           {artist.members.length > 0 && (
             <div>
-              <h2 className="text-2xl font-semibold mb-2">
-                Integrantes
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2">Integrantes</h2>
 
               <ul className="list-disc list-inside">
                 {artist.members.map((member) => (
@@ -42,9 +36,7 @@ export default function ArtistDetail({ artist, albums }) {
 
           {artist.urls.length > 0 && (
             <div>
-              <h2 className="text-2xl font-semibold mb-2">
-                Enlaces
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2">Enlaces</h2>
 
               <ul>
                 {artist.urls.map((url) => (
@@ -67,16 +59,11 @@ export default function ArtistDetail({ artist, albums }) {
 
       {albums.length > 0 && (
         <section className="mt-14">
-          <h2 className="text-3xl font-bold mb-6">
-            Álbumes
-          </h2>
+          <h2 className="text-3xl font-bold mb-6">Álbumes</h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {albums.map((album) => (
-              <Link
-                key={album.id}
-                href={`/album/${album.id}`}
-              >
+              <Link key={album.id} href={`/discogs_album/${album.id}`}>
                 <div className="bg-zinc-900 rounded-lg p-4 hover:bg-zinc-800 transition cursor-pointer">
                   <img
                     src={album.cover}
@@ -84,13 +71,9 @@ export default function ArtistDetail({ artist, albums }) {
                     className="w-full rounded-md"
                   />
 
-                  <h3 className="mt-3 font-semibold">
-                    {album.title}
-                  </h3>
+                  <h3 className="mt-3 font-semibold">{album.title}</h3>
 
-                  <p className="text-sm text-gray-400">
-                    {album.year}
-                  </p>
+                  <p className="text-sm text-gray-400">{album.year}</p>
                 </div>
               </Link>
             ))}
